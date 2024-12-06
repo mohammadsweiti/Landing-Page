@@ -1,62 +1,70 @@
-/**
- * 
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- * 
- * Dependencies: None
- * 
- * JS Version: ES2015/ES6
- * 
- * JS Standard: ESlint
- * 
+/*
+I made everthing i think i should make ,please if it need to modifiy , said to me what is that , 
+if there is a point need optimization say to me what is that , and if you can said to me how i can optimze my code.
+i think this is my best .
 */
 
-/**
- * Comments should be present at the beginning of each procedure and class.
- * Great to have comments before crucial code sections within the procedure.
-*/
 
 /**
  * Define Global Variables
  * 
 */
+const navBarElement = document.getElementById('navbar__list');
+const sectionsElemets = document.querySelectorAll('section');
 
+// build the nav,here is i create the nav bar and then append it to the documnet 
+const createNav = ()=>{
+    const fragment = document.createDocumentFragment();
+    sectionsElemets.forEach(sec => {
+        const secID = sec.id;
+        const secData = sec.dataset.nav;
+        const list = document.createElement('li');
+        list.innerHTML = `<a href='#${secID}' data-nav='${secID}'>${secData}</a>`
+        list.classList.add('menu__link');
+        fragment.appendChild(list);
+    });
+    navBarElement.appendChild(fragment);
+    console.log('Navigation items added:', navBarElement.innerHTML); // Debug log
 
-/**
- * End Global Variables
- * Start Helper Functions
- * 
-*/
-
-
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-
+}
+//this is the involation function to create the nav bar 
+createNav();
 
 // Add class 'active' to section when near top of viewport
+const addActiveClass = ()=>{
+        sectionsElemets.forEach((section)=>{
+            const offset1 = Math.floor(section.getBoundingClientRect().top);
+            section.classList.remove('your-active-class');
+            section.style.backgroundColor = '';
+            if(offset1<150 && offset1>-150){
+                section.classList.add('your-active-class');
+                section.style.backgroundColor = 'red';
+            }
+
+        })
+    }
+
+    let throttleTimeout;
+    window.addEventListener('scroll', () => {
+        if (!throttleTimeout) {
+            throttleTimeout = setTimeout(() => {
+                addActiveClass();
+                throttleTimeout = null;
+            }, 100); // Adjust the delay as needed
+        }
+    });
+    
 
 
 // Scroll to anchor ID using scrollTO event
+navBarElement.addEventListener('click',(event)=>{
+event.preventDefault();
+const targetnav = event.target.dataset.nav;
+if(targetnav){
+    document.getElementById(targetnav).scrollIntoView({behavior:"smooth"});
+    setTimeout(()=>{
+        location.hash = targetnav;
+    },100);
+}
 
-
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
-
-// Build menu 
-
-// Scroll to section on link click
-
-// Set sections as active
-
-
+})
