@@ -14,6 +14,7 @@ const sectionsElemets = document.querySelectorAll('section');
 
 // build the nav,here is i create the nav bar and then append it to the documnet 
 const createNav = ()=>{
+    const t0 = performance.now();
     const fragment = document.createDocumentFragment();
     sectionsElemets.forEach(sec => {
         const secID = sec.id;
@@ -22,9 +23,11 @@ const createNav = ()=>{
         list.innerHTML = `<a href='#${secID}' data-nav='${secID}'>${secData}</a>`
         list.classList.add('menu__link');
         fragment.appendChild(list);
+        const t1 = performance.now();
+        console.log(`the excuttion take ${t1-t0} miliseconds `);
+        
     });
     navBarElement.appendChild(fragment);
-    console.log('Navigation items added:', navBarElement.innerHTML); // Debug log
 
 }
 //this is the involation function to create the nav bar 
@@ -32,6 +35,8 @@ createNav();
 
 // Add class 'active' to section when near top of viewport
 const addActiveClass = ()=>{
+    const t0 = performance.now();
+
         sectionsElemets.forEach((section)=>{
             const offset1 = Math.floor(section.getBoundingClientRect().top);
             section.classList.remove('your-active-class');
@@ -42,6 +47,9 @@ const addActiveClass = ()=>{
             }
 
         })
+        const t1 = performance.now();
+        console.log(`the excuttion take ${t1-t0} miliseconds `);
+
     }
 
     let throttleTimeout;
