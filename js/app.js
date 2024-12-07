@@ -11,6 +11,8 @@ i think this is my best .
 */
 const navBarElement = document.getElementById('navbar__list');
 const sectionsElemets = document.querySelectorAll('section');
+const navLinksActive = document.querySelectorAll('.menu__link');
+
 
 // build the nav,here is i create the nav bar and then append it to the documnet 
 const createNav = ()=>{
@@ -37,13 +39,16 @@ createNav();
 const addActiveClass = ()=>{
     const t0 = performance.now();
 
-        sectionsElemets.forEach((section)=>{
+        sectionsElemets.forEach((section,index)=>{
             const offset1 = Math.floor(section.getBoundingClientRect().top);
+            const navlink = navBarElement.querySelector(`[data-nav="${section.id}"]`);
             section.classList.remove('your-active-class');
+            navlink.classList.remove('active-link');
+            section.style.backgroundColor='';
             section.style.backgroundColor = '';
             if(offset1<150 && offset1>-150){
                 section.classList.add('your-active-class');
-                section.style.backgroundColor = 'red';
+                navlink.classList.add('active-link');
             }
 
         })
